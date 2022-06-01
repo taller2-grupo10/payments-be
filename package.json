@@ -1,5 +1,5 @@
 {
-  "name": "BasicPayments",
+  "name": "basicpayments",
   "version": "1.0.0",
   "description": "BasicPayments es un proyecto hecho con fines educativos donde los usuarios pueden crear proyectos que son fundeados por inversores angeles(con inversiones tipo seed o semillas) y cada proyecto tiene asignado un revisor que es el encargado de revisar que el mismo avance. NO USAR EN PRODUCCION!",
   "author": "",
@@ -8,6 +8,8 @@
     "hardhat": "2.0.6",
     "hardhat-deploy": "0.7.4",
     "hardhat-deploy-ethers": "0.3.0-beta.7",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.20.1",
     "solc": "0.7.4"
   },
   "devDependencies": {
@@ -42,8 +44,8 @@
     "hardhat-preprocessor": "0.1.2",
     "hardhat-prettier": "0.0.1",
     "hardhat-typechain": "0.3.4",
-    "husky": "5.0.9",
     "leafleth": "0.0.9",
+    "nodemon": "^2.0.16",
     "prettier": "2.2.1",
     "prettier-plugin-solidity": "1.0.0-beta.5",
     "shelljs": "0.8.4",
@@ -71,7 +73,6 @@
     "solidity"
   ],
   "scripts": {
-    "prepare": "husky install",
     "postinstall": "npm run compile",
     "clean": "hardhat clean",
     "compile": "hardhat compile",
@@ -87,6 +88,7 @@
     "deploy-kovan": "hardhat deploy --network kovan",
     "deploy-local": "hardhat deploy --network hardhat",
     "start": "node src/server",
-    "release": "standard-version"
+    "release": "standard-version",
+    "dev": "nodemon scr/server"
   }
 }
