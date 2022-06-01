@@ -1,5 +1,5 @@
 const ethers = require("ethers");
-const accounts = [];
+const {Wallet} = require("./../database/models/index")  //Aca llamamos a la instancia de la tabla de la bd Wallet
 
 const getDeployerWallet = ({ config }) => () => {
   const provider = new ethers.providers.InfuraProvider(config.network, config.infuraApiKey);
@@ -12,24 +12,28 @@ const createWallet = () => async () => {
   const provider = new ethers.providers.InfuraProvider("kovan", process.env.INFURA_API_KEY);
   // This may break in some environments, keep an eye on it
   const wallet = ethers.Wallet.createRandom().connect(provider);
-  accounts.push({
-    address: wallet.address,
+  const new_wallet = await Wallet.create({
+    address: wallet.address,     // d-pons: agregado persistencia de datos
     privateKey: wallet.privateKey,
+    createdAt: new Date(),
+    updatedAt: new Date(),
   });
   const result = {
-    id: accounts.length,
-    address: wallet.address,
-    privateKey: wallet.privateKey,
+    id: new_wallet.id,
+    address: new_wallet.address,
+    privateKey: new_wallet.privateKey,
   };
   return result;
 };
 
-const getWalletsData = () => () => {
-  return accounts;
+const getWalletsData = () => async() => {
+  const wallets = await Wallet.findAll();   // d-pons: busqueda en la bd
+  return wallets;
 };
 
-const getWalletData = () => index => {
-  return accounts[index - 1];
+const getWalletData = () => async id => {
+  const wallet = await Wallet.findByPk(id)   // d-pons: busqueda en la bd
+  return wallet;
 };
 
 const getWallet = ({}) => index => {
