@@ -3,6 +3,16 @@ const getWalletsData = require("./handlers/getWalletsHandler");
 const createWallet = require("./handlers/createWalletHandler");
 const createDeposit = require("./handlers/createDepositHandler");
 const getDeposit = require("./handlers/getDepositHandler");
+const getHelloWorld = require("./handlers/getHelloWorldhandler");
+
+function getHelloWorldRoute({ services, config }) {
+  return {
+    method: "GET",
+    url: "/",
+    schema: getHelloWorld.schema(config),
+    handler: getHelloWorld.handler({ config, ...services }),
+  };
+}
 
 function getWalletDataRoute({ services, config }) {
   return {
@@ -49,4 +59,11 @@ function getDepositRoute({ services, config }) {
   };
 }
 
-module.exports = [getWalletDataRoute, getWalletsDataRoute, createWalletRoute, createDepositRoute, getDepositRoute];
+module.exports = [
+  getHelloWorldRoute,
+  getWalletDataRoute,
+  getWalletsDataRoute,
+  createWalletRoute,
+  createDepositRoute,
+  getDepositRoute,
+];
