@@ -11,7 +11,11 @@ routes.forEach(route => fastify.route(route({ config, services })));
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen(7000, "0.0.0.0");
+    if (config.LOCAL_HOST) {
+      await fastify.listen(config.PORT, config.LOCAL_HOST);
+    } else {
+      await fastify.listen(config.PORT);
+    }
     fastify.log.info(`server listening on ${fastify.server.address().port}`);
   } catch (err) {
     fastify.log.error(err);
