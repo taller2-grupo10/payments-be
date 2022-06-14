@@ -89,7 +89,7 @@
     "test": "hardhat test",
     "deploy-kovan": "hardhat deploy --network kovan",
     "deploy-local": "hardhat deploy --network hardhat",
-    "prestart": "export $(cat .env | xargs) && cd scripts && ./preinstall.sh",
+    "prestart": "cd scripts && ./preinstall.sh",
     "start": "node src/server",
     "release": "standard-version",
     "dev": "nodemon scr/server"
