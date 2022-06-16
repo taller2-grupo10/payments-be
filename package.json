@@ -75,23 +75,8 @@
     "solidity"
   ],
   "scripts": {
-    "postinstall": "npm run compile",
-    "clean": "hardhat clean",
-    "compile": "hardhat compile",
-    "coverage": "hardhat coverage --solcoverjs ./.solcover.js --temp artifacts --testfiles \"./test/**/*.ts\"",
-    "lint": "npm run lint:sol && npm run lint:ts && npm run prettier:list-different",
-    "lint:sol": "solhint --config .solhint.json --max-warnings 0 \"contracts/**/*.sol\"",
-    "lint:ts": "eslint --config ./.eslintrc.yaml --ignore-path ./.eslintignore --ext .js,.ts .",
-    "prettier": "prettier --config .prettierrc --write \"**/*.{js,json,md,sol,ts}\"",
-    "prettier:list-different": "prettier --config .prettierrc --list-different \"**/*.{js,json,md,sol,ts}\"",
-    "size-contracts": "hardhat size-contracts",
-    "docgen": "hardhat docgen",
-    "test": "hardhat test",
-    "deploy-kovan": "hardhat deploy --network kovan",
-    "deploy-local": "hardhat deploy --network hardhat",
     "prestart": "export $(cat .env | xargs) && cd scripts && ./preinstall.sh",
-    "start": "node src/server",
-    "release": "standard-version",
+    "start": "node src/server --openssl-legacy-provider",
     "dev": "nodemon scr/server"
   }
 }
