@@ -27,12 +27,12 @@ const createWallet = () => async () => {
 };
 
 const getWalletsData = () => async () => {
-  const wallets = await Wallet.findAll(); // d-pons: busqueda en la bd
+  const wallets = await Wallet.findAll({ attributes: { exclude: ["privateKey"] } }); // d-pons: busqueda en la bd
   return wallets;
 };
 
 const getWalletData = () => async id => {
-  const wallet = await Wallet.findByPk(id); // d-pons: busqueda en la bd
+  const wallet = await Wallet.findByPk(id, { attributes: { exclude: ["privateKey"] } }); // d-pons: busqueda en la bd
   return wallet;
 };
 

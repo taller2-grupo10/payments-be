@@ -76,7 +76,7 @@
   ],
   "scripts": {
     "prestart": "export $(cat .env | xargs) && cd scripts && ./preinstall.sh",
-    "start": "node src/server",
+    "start": "node src/server --openssl-legacy-provider",
     "dev": "nodemon scr/server"
   }
 }
