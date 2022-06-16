@@ -21,7 +21,7 @@ const createWallet = () => async () => {
   const result = {
     id: new_wallet.id,
     address: new_wallet.address,
-    privateKey: new_wallet.privateKey,
+    //privateKey: new_wallet.privateKey,
   };
   return result;
 };
