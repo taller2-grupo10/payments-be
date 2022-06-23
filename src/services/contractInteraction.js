@@ -7,12 +7,18 @@ const getContract = (config, wallet) => {
   return new ethers.Contract(config.contractAddress, config.contractAbi, wallet);
 };
 
-const deposit = ({ config }) => async (senderWallet, amountToSend) => {
+const deposit = ({ config }) => async (senderWallet, amountToSend, reply) => {
   const basicPayments = await getContract(config, senderWallet);
   const creation = new Date();
-  const tx = await basicPayments.deposit({
-    value: await ethers.utils.parseEther(amountToSend).toHexString(),
-  });
+  var tx = null;
+  try {
+    tx = await basicPayments.deposit({
+      value: await ethers.utils.parseEther(amountToSend).toHexString(),
+    });
+  } catch (error) {
+    reply.code(402);
+    return error;
+  }
   tx.wait(1).then(
     async receipt => {
       //console.log("Transaction mined");
