@@ -1,7 +1,7 @@
 const ethers = require("ethers");
 const { Wallet } = require("./../database/models/index"); //Aca llamamos a la instancia de la tabla de la bd Wallet
 
-const getDeployerWallet = ({ config }) => () => {
+const getDeployerWallet = ({ config }) => async () => {
   const provider = new ethers.providers.InfuraProvider(config.network, config.infuraApiKey);
   const wallet = ethers.Wallet.fromMnemonic(config.deployerMnemonic).connect(provider);
   console.log("Deployer wallet" + wallet.address);
@@ -36,10 +36,10 @@ const getWalletData = () => async id => {
   return wallet;
 };
 
-const getWallet = ({}) => index => {
-  const provider = new ethers.providers.InfuraProvider("kovan", process.env.INFURA_API_KEY);
-
-  return new ethers.Wallet(accounts[index - 1].privateKey, provider);
+const getWallet = ({}) => async id => {
+  const provider = await new ethers.providers.InfuraProvider("kovan", process.env.INFURA_API_KEY);
+  const wallet = await Wallet.findByPk(id);
+  return new ethers.Wallet(wallet.privateKey, provider);
 };
 
 module.exports = ({ config }) => ({
