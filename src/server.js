@@ -16,15 +16,12 @@ async function isTokenValid(token) {
 }
 
 fastify.addHook("onRequest", async (request, reply) => {
-  bearer_token = request.headers.authorization;
-  if (!bearer_token) {
+  let key = request.headers.api_payments;
+  if (!key) {
     reply.code(401).send({ error: "Unauthorized" });
     return;
   }
-
-  without_bearer = bearer_token.split(" ");
-  token = without_bearer[1];
-  if (!(await isTokenValid(token))) {
+  if (!(await isTokenValid(key))) {
     reply.code(401).send({ error: "Unauthorized" });
     return;
   }
