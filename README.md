@@ -32,6 +32,10 @@ The following endpoints are available:
 - Deposit ethers into the Smart contract: POST /deposit - Body params: senderId(integer), amountInEthers(string)
 - Get deposit receipt: GET /deposit/:txHash:
 
+- Get wallet balance: GET /balance/:id:
+- Get all deposits: GET /deposits
+- Get last deposit: GET /deposit/last
+
 ### Usage example
 
 ```sh

@@ -1,6 +1,8 @@
 const ethers = require("ethers");
 const getDepositHandler = require("../handlers/getDepositHandler");
+const db = require("./../database/models/index");
 const { Wallet } = require("./../database/models/index");
+const {Deposit} = require('./../database/models/index');
 
 const getContract = (config, wallet) => {
   return new ethers.Contract(config.contractAddress, config.contractAbi, wallet);
@@ -8,11 +10,15 @@ const getContract = (config, wallet) => {
 
 const deposits = {};
 
-const deposit = ({ config }) => async (senderWallet, amountToSend) => {
-  const basicPayments = await getContract(config, senderWallet);
-  const tx = await basicPayments.deposit({
-    value: await ethers.utils.parseEther(amountToSend).toHexString(),
-  });
+const deposit = ({ config }) => async (senderId, senderWallet, amountToSend) => {
+  const basicPayments =  getContract(config, senderWallet);
+
+  const value = ethers.utils
+    .parseEther(amountToSend)
+     .toHexString();
+
+  const tx = await basicPayments.deposit({value});
+
   tx.wait(1).then(
     receipt => {
       console.log("Transaction mined");
@@ -23,6 +29,22 @@ const deposit = ({ config }) => async (senderWallet, amountToSend) => {
           senderAddress: firstEvent.args.sender,
           amountSent: firstEvent.args.amount,
         };
+      
+        Deposit.create({
+          senderId: senderId,
+          from: tx.from,
+          to: tx.to,
+          amountInEthers: amountToSend,
+          chainId: tx.chainId,
+          createdAt: new Date(),
+          updatedAt: new Date(), 
+        })
+        .then(() => {
+          console.log("desposito almacenado");
+        })
+        .catch((error) => {
+          console.log("no se pudo almacenar el deposito");
+        });
       } else {
         console.error(`Payment not created in tx ${tx.hash}`);
       }
@@ -37,6 +59,7 @@ const deposit = ({ config }) => async (senderWallet, amountToSend) => {
       console.error(message);
     },
   );
+
   return tx;
 };
 
@@ -51,8 +74,20 @@ const getWalletBalance = ({ config }) => async walletId => {
   return { balance: ethers.utils.formatEther(balance), address: wallet.address, id: wallet.id };
 };
 
+const getDepositsData = ({config}) => async () => {
+  const deposits = await Deposit.findAll();
+  return deposits
+} 
+
+const getLastDepositData = ({config}) => async () => {
+  const lastDeposit = await Deposit.findOne({order: [ ['createdAt', 'DESC'] ]});
+  return lastDeposit;
+} 
+
 module.exports = dependencies => ({
   deposit: deposit(dependencies),
   getDepositReceipt: getDepositReceipt(dependencies),
   getWalletBalance: getWalletBalance(dependencies),
+  getDepositsData: getDepositsData(dependencies),
+  getLastDepositData: getLastDepositData(dependencies),
 });
