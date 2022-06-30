@@ -3,10 +3,12 @@ const getDepositHandler = require("../handlers/getDepositHandler");
 const db = require("./../database/models/index");
 const { Wallet } = require("./../database/models/index");
 const {Deposit} = require('./../database/models/index');
+const { Transaction } = require("./../database/models/index"); // si llega a romper eliminar
 
 const getContract = (config, wallet) => {
   return new ethers.Contract(config.contractAddress, config.contractAbi, wallet);
 };
+
 
 const deposits = {};
 
@@ -19,11 +21,12 @@ const deposit = ({ config }) => async (senderId, senderWallet, amountToSend) => 
 
   const tx = await basicPayments.deposit({value});
 
+
   tx.wait(1).then(
-    receipt => {
-      console.log("Transaction mined");
+    async receipt => {
+      //console.log("Transaction mined");
       const firstEvent = receipt && receipt.events && receipt.events[0];
-      console.log(firstEvent);
+      //console.log(firstEvent);
       if (firstEvent && firstEvent.event == "DepositMade") {
         deposits[tx.hash] = {
           senderAddress: firstEvent.args.sender,
@@ -64,7 +67,7 @@ const deposit = ({ config }) => async (senderId, senderWallet, amountToSend) => 
 };
 
 const getDepositReceipt = ({}) => async depositTxHash => {
-  return deposits[depositTxHash];
+  return Transaction.findByPk(depositTxHash);
 };
 
 const getWalletBalance = ({ config }) => async walletId => {
