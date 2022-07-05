@@ -21,9 +21,7 @@ const deposit = ({ config }) => async (senderWallet, amountToSend, reply) => {
   }
   tx.wait(1).then(
     async receipt => {
-      //console.log("Transaction mined");
       const firstEvent = receipt && receipt.events && receipt.events[0];
-      //console.log(firstEvent);
       if (firstEvent && firstEvent.event == "DepositMade") {
         const newTransaction = await Transaction.create({
           transactionHash: firstEvent.transactionHash,
@@ -63,8 +61,16 @@ const getWalletBalance = ({ config }) => async walletId => {
   return { balance: ethers.utils.formatEther(balance), address: wallet.address, id: wallet.id };
 };
 
+const getTransactions = ({ config }) => async () => {
+  const transactions = await Transaction.findAll({
+    order: [["createdAt", "DESC"]],
+  });
+  return transactions;
+};
+
 module.exports = dependencies => ({
   deposit: deposit(dependencies),
   getDepositReceipt: getDepositReceipt(dependencies),
   getWalletBalance: getWalletBalance(dependencies),
+  getTransactions: getTransactions(dependencies),
 });
