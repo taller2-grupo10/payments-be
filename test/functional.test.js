@@ -35,22 +35,25 @@ describe("Wallet tests", () => {
   it("Get wallet balance", async () => {
     let response = await chai.request(testUrl).get("/balance/1");
     expect(response).to.have.status(200);
-    expect(response.body).to.be.a("object");
-    expect(response.body.balance).to.be.a("string");
-    expect(response.body.address).to.be.a("string");
+    expect(response.body).to.equal(0);
   });
 });
 
 describe("Transaction tests", () => {
   it("Create transaction no funds", async () => {
-    let response = await chai.request(testUrl).post("/deposit").send({
-      senderId: 1,
-      amountInEthers: "0.00001",
-    });
-    expect(response).to.have.status(402);
-    expect(response.body).to.be.a("object");
-    expect(response.body.error).to.be.a("string");
-    expect(response.body.code).to.equal("INSUFFICIENT_FUNDS");
+    await chai
+      .request(testUrl)
+      .post("/deposit")
+      .send({
+        senderId: 1,
+        amountInEthers: "0.00001",
+      })
+      .then(response => {
+        expect(response).to.have.status(402);
+        expect(response.body).to.be.a("object");
+        expect(response.body.error).to.be.a("string");
+        expect(response.body.code).to.equal("INSUFFICIENT_FUNDS");
+      });
   });
 
   it("Get transaction", async () => {

@@ -89,7 +89,7 @@
     "prestart": "export $(cat .env | xargs) && cd scripts && ./preinstall.sh",
     "start": "node src/server --openssl-legacy-provider",
     "dev": "nodemon scr/server",
-    "test": "mocha test/**  -R min --exit --timeout 10000",
+    "test": "mocha test/**  -R min --exit --timeout 100000",
     "coverage": "c8 npm test"
   }
 }
