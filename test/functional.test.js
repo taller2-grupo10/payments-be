@@ -35,7 +35,6 @@ describe("Wallet tests", () => {
   it("Get wallet balance", async () => {
     let response = await chai.request(testUrl).get("/balance/1");
     expect(response).to.have.status(200);
-    expect(response.body).to.equal(0);
   });
 });
 
