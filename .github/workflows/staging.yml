@@ -1,0 +1,13 @@
+name: CI/CD - Deploy Staging
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+    secrets:
+      DOCKER_HUB_USERNAME: ${{secrets.DOCKER_HUB_USERNAME}}
+      DOCKER_HUB_ACCESS_TOKEN: ${{secrets.DOCKER_HUB_ACCESS_TOKEN}}

@@ -1,0 +1,16 @@
+{
+  "all": true,
+  "include": [
+    "src/**/*.js"
+  ],
+  "exclude": [
+    "src/config",
+    "src/database",
+    "src/server.js",
+    "src/handlers/getHelloWorldhandler.js"
+  ],
+  "clean": true,
+  "reporter": "text",
+  "report-dir": "./",
+  "verbose": true
+}

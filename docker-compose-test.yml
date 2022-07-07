@@ -1,0 +1,8 @@
+version: "3.1"
+
+services:
+  payments-test:
+    container_name: payments-test
+    build:
+      context: .
+      dockerfile: DockerfileTest

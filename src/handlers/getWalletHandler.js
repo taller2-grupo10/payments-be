@@ -9,6 +9,16 @@ function schema() {
       },
     },
     required: ["id"],
+    response: {
+      200: {
+        description: "Success",
+        type: "object",
+        properties: {
+          id: { type: "integer" },
+          address: { type: "string" },
+        },
+      },
+    },
   };
 }
 
