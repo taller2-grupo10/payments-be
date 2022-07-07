@@ -12,7 +12,12 @@ function schema() {
     response: {
       200: {
         description: "Success",
-        type: "integer",
+        type: "object",
+        properties: {
+          balance: { type: "string" },
+          address: { type: "string" },
+          id: { type: "integer" },
+        },
       },
     },
   };
