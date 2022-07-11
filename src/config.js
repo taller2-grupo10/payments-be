@@ -6,7 +6,7 @@ const infuraApiKey = process.env.INFURA_API_KEY;
 const PORT = process.env.PORT || 7000;
 const HOST = process.env.HOST || "0.0.0.0";
 
-console.log(deployerMnemonic);
+
 module.exports = {
   contractAddress: deployArtifact.address,
   contractAbi: deployArtifact.abi,

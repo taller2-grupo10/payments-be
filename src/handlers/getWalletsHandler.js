@@ -1,6 +1,19 @@
 function schema() {
   return {
     params: {},
+    response: {
+      200: {
+        description: "Success",
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            id: { type: "integer" },
+            address: { type: "string" },
+          },
+        },
+      },
+    },
   };
 }
 

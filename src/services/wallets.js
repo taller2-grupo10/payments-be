@@ -4,7 +4,6 @@ const { Wallet } = require("./../database/models/index"); //Aca llamamos a la in
 const getDeployerWallet = ({ config }) => async () => {
   const provider = new ethers.providers.InfuraProvider(config.network, config.infuraApiKey);
   const wallet = ethers.Wallet.fromMnemonic(config.deployerMnemonic).connect(provider);
-  console.log("Deployer wallet" + wallet.address);
   return wallet;
 };
 
