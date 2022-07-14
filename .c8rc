@@ -10,7 +10,7 @@
     "src/handlers/getHelloWorldhandler.js"
   ],
   "clean": true,
-  "reporter": "text",
+  "reporter": "clover",
   "report-dir": "./",
   "verbose": true
 }
