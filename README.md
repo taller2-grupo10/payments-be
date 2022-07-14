@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/taller2-grupo10/payments-be/branch/main/graph/badge.svg?token=QP3XEQKQ29)](https://codecov.io/gh/taller2-grupo10/payments-be)
+
 # BasicPayments
 
 Smart contract and basic service to solve payments in the Taller de Programacion 2' projects.
