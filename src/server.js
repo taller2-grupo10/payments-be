@@ -16,6 +16,10 @@ async function isTokenValid(token) {
 }
 
 fastify.addHook("onRequest", async (request, reply) => {
+  if (request.url.includes("/doc")) {
+    reply.code(200);
+    return;
+  }
   let key = request.headers.api_payments;
   if (!key) {
     reply.code(401).send({ error: "Unauthorized" });
